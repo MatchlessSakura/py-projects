@@ -1,0 +1,55 @@
+# 编写程序模拟实现人狗大战。人有姓名，性别，生命值，攻击力，狗有姓名，种类，生命值，攻击力。人可以攻击狗（狗生命值-人攻击力），狗可以咬人（人生命值-狗攻击力）。
+class War(object):
+    def __init__(self, name, hp, p):
+        self.name = name
+        self.hp = hp
+        self.p = p
+
+
+class Person(War):
+    def __init__(self, name, sex, hp, p):
+        self.name = name
+        self.sex = sex
+        self.hp = hp
+        self.p = p
+
+
+class Dog(War):
+    def __init__(self, name, z, hp, p):
+        self.name = name
+        self.z = z
+        self.hp = hp
+        self.p = p
+
+
+def attack(Person, Dog):
+    while (Person.hp > 0 and Dog.hp > 0):
+        if (Dog.hp - Person.p > 0):  # 人
+            Dog.hp -= Person.p
+            print('{}对{}（{}）造成了{}点伤害,{}还剩{}生命值'.format(Person.name, Dog.name, Dog.z, Person.p, Dog.name, Dog.hp))
+        elif (Dog.hp == Person.p):  # 正好杀死
+            print('{}({})杀死了{}({})，{}赢了'.format(Person.name, Person.sex, Dog.name, Dog.z, Person.name))
+            break
+        else:  # 伤害溢出
+            print('{}对{}（{}）造成了{}点伤害,{}({})杀死了{}({})，{}({})赢了'.format(Person.name, Dog.name, Dog.z, Dog.hp, Person.name,
+                                                                  Person.sex, Dog.name, Dog.z, Person.name,Person.sex))
+            break
+        if (Person.hp - Dog.p > 0):  # 狗
+            Person.hp -= Dog.p
+            print('{}对{}（{}）造成了{}点伤害,{}还剩{}生命值'.format(Dog.name, Person.name, Person.sex, Dog.p, Person.name, Person.hp))
+        elif (Dog.hp == Person.p):  # 正好杀死
+            print('{}({})杀死了{}({})，{}赢了'.format(Dog.name, Dog.z, Person.name, Person.sex, Dog.name))
+            break
+        else:  # 伤害溢出
+            print('{}对{}（{}）造成了{}点伤害,{}({})杀死了{}({})，{}({})赢了'.format(Dog.name, Person.name, Person.sex, Person.hp, Dog.name,
+                                                                  Dog.z, Person.name, Person.sex, Dog.name,Dog.z))
+            break
+
+# 设置输入
+a = input('请输入人名，性别，生命值，攻击力（以空格为分割）：\n').split()
+aa = a
+aa = Person(aa[0],aa[1],int(aa[2]),int(aa[3]))
+b = input('请输入狗名，种类，生命值，攻击力（以空格为分割）：\n').split()
+bb = b
+bb = Dog(bb[0],bb[1],int(bb[2]),int(bb[3]))
+attack(aa, bb)
