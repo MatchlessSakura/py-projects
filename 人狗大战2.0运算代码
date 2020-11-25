@@ -1,0 +1,55 @@
+# 编写程序模拟实现人狗大战。人有姓名，性别，生命值，攻击力，狗有姓名，种类，生命值，攻击力。人可以攻击狗（狗生命值-人攻击力），狗可以咬人（人生命值-狗攻击力）。
+class War(object):
+    def __init__(self, name, hp, p):
+        self.name = name
+        self.hp = hp
+        self.p = p
+
+
+class Person(War):
+    def __init__(self, name, sex, hp, p):
+        self.name = name
+        self.sex = sex
+        self.hp = hp
+        self.p = p
+
+
+class Dog(War):
+    def __init__(self, name, z, hp, p):
+        self.name = name
+        self.z = z
+        self.hp = hp
+        self.p = p
+
+
+def attack(Person, Dog):
+    x = ''
+    flag = 0
+    while Person.hp > 0 and Dog.hp > 0:
+
+        if Dog.hp - Person.p > 0:  # 人
+            Dog.hp -= Person.p
+            x += ('{}({})对{}（{}）造成了{}点伤害,{}({})还剩{}生命值\n'.format(Person.name, Person.sex, Dog.name, Dog.z, Person.p,
+                                                                 Dog.name, Dog.z, Dog.hp))
+        elif Dog.hp <= Person.p:  # 正好杀死
+            x += (
+                '{}({})对{}（{}）造成了{}点伤害,{}({})杀死了{}({})，{}({})赢了\n'.format(Person.name, Person.sex, Dog.name, Dog.z,
+                                                                          Dog.hp, Person.name,
+                                                                          Person.sex, Dog.name, Dog.z, Person.name,
+                                                                          Person.sex))
+            break
+        if Person.hp - Dog.p > 0:  # 狗
+            Person.hp -= Dog.p
+            x += ('{}({})对{}（{}）造成了{}点伤害,{}({})还剩{}生命值\n'.format(Dog.name, Dog.z, Person.name, Person.sex, Dog.p,
+                                                                 Person.name, Person.sex,
+                                                                 Person.hp))
+        elif Dog.hp <= Person.p:  # 正好杀死
+            x += (
+                '{}({})对{}（{}）造成了{}点伤害,{}({})杀死了{}({})，{}({})赢了\n'.format(Dog.name, Dog.z, Person.name, Person.sex,
+                                                                          Person.hp,
+                                                                          Dog.name,
+                                                                          Dog.z, Person.name, Person.sex, Dog.name,
+                                                                          Dog.z))
+            flag = 1
+            break
+    return x, flag
