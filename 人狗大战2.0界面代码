@@ -4,6 +4,8 @@ import sqlite3
 
 conn = sqlite3.connect('somedatabase.db')  # 创建数据库，文件会创建在ide跟目录下，例如使用python自带的idle创建，文件就会被创建在C:\Python27目录下
 cu = conn.cursor()  # 能获得连接的游标
+#创建数据表
+#cu.execute("""create table student (id integer primary key,phone integer,name varchar(10))""")
 # 实例化object，建立窗口window
 window = tk.Tk()
 
