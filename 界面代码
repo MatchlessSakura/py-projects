@@ -1,6 +1,5 @@
 import tkinter as tk  # 使用Tkinter前需要先导入 重名为tk
-from tkinter.messagebox import showinfo
-from tkinter import *
+
 import fight
 
 # 实例化object，建立窗口window
@@ -78,11 +77,22 @@ def info():
         # 调用文件 计算战斗!
         a = fight.Person(person_name, person_sex, int(person_hp), int(person_p))
         b = fight.Dog(dog_name, dog_z, int(dog_hp), int(dog_p))
-        # 弹出窗口
+        # 获取输出
+        xx = fight.attack(a, b)
+        return xx
+
+    x = huoqu()
+    # 弹出窗口
     window_sign_up = tk.Toplevel(window)
     window_sign_up.geometry('800x800')
+    #设置颜色
+    # window_sign_up.configure(bg='gray')
     window_sign_up.title('战斗信息')
-    tk.Text(window_sign_up, text=huoqu(), font=('Arial', 14)).pack(side='top')
+    shuchu = tk.Text(window_sign_up, font=('Arial', 14))
+    # shuchu.configure(bg='blue')
+    shuchu.pack(side='top')
+    shuchu.insert("insert", x)
+
     def destory():
         window_sign_up.destroy()
 
