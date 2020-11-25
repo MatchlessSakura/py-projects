@@ -1,7 +1,9 @@
 import tkinter as tk  # 使用Tkinter前需要先导入 重名为tk
-
 import fight
+import sqlite3
 
+conn = sqlite3.connect('somedatabase.db')  # 创建数据库，文件会创建在ide跟目录下，例如使用python自带的idle创建，文件就会被创建在C:\Python27目录下
+cu = conn.cursor()  # 能获得连接的游标
 # 实例化object，建立窗口window
 window = tk.Tk()
 
@@ -78,20 +80,28 @@ def info():
         a = fight.Person(person_name, person_sex, int(person_hp), int(person_p))
         b = fight.Dog(dog_name, dog_z, int(dog_hp), int(dog_p))
         # 获取输出
-        xx = fight.attack(a, b)
-        return xx
+        x, y = fight.attack(a, b)
+        return x, y
 
-    x = huoqu()
+    x, y = huoqu()
     # 弹出窗口
     window_sign_up = tk.Toplevel(window)
     window_sign_up.geometry('800x800')
-    #设置颜色
+    # 设置颜色
     # window_sign_up.configure(bg='gray')
     window_sign_up.title('战斗信息')
     shuchu = tk.Text(window_sign_up, font=('Arial', 14))
-    # shuchu.configure(bg='blue')
     shuchu.pack(side='top')
     shuchu.insert("insert", x)
+    if y == 1:
+        yy = var_person_name.get()
+    else:
+        yy = var_dog_name.get()
+    s = 0
+    # 插入数据
+    cu.execute("insert into jilu(id,winner) values(?,?)", (s, yy))
+    conn.commit()
+    s += 1
 
     def destory():
         window_sign_up.destroy()
@@ -100,9 +110,30 @@ def info():
     btn1.pack(side='top')
 
 
+# 数据库查询操作
+def dataBaseSelect():
+    cu.execute("select * from jilu")
+    x = cu.fetchall()  # 查询表中所有数据
+    return x
+
+
+def dataBase():
+    # 弹出窗口
+    window_database = tk.Toplevel(window)
+    window_database.geometry('800x800')
+    window_database.title('历史信息')
+    lishi = tk.Text(window_database, font=('Arial', 14))
+    lishi.pack(side='top')
+    lishi.insert("insert", dataBaseSelect())
+
+
+# 历史记录按钮
+btn2 = tk.Button(window, text='查看记录', command=dataBase)
+btn2.place(x=400, y=500, width=200)
+
 # 开战按钮
 btn = tk.Button(window, text='开战', command=info)
-btn.place(x=300, y=500, width=200)
+btn.place(x=100, y=500, width=200)
 
 # 主窗口循环显示
 window.mainloop()
